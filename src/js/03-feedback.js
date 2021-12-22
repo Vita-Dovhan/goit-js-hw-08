@@ -7,7 +7,7 @@ const refs = {
 }
 
 refs.form.addEventListener('submit', onFormSubmit);
-refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
+refs.textarea.addEventListener('input', throttle(onTextareaInput, 1000));
 
 
 refs.form.addEventListener('input', (e) => {
@@ -24,14 +24,19 @@ function onFormSubmit(event) {
   localStorage.removeItem(STORAGE_KEY)
 
 
-  function populateVessageOutput() {
-    const savedMessage = localStorage.getItem(STORAGE_KEY);
-    if (savedMessage) {
-      refs.textarea.value = savedMessage;
 
-    }
+}
 
+function onTextareaInput(event) {
+  const message = event.target.value;
+}
+
+function populateVessageOutput() {
+  const savedMessage = localStorage.getItem(STORAGE_KEY);
+  if (savedMessage) {
+    refs.textarea.value = savedMessage;
   }
+}
 
 
 
