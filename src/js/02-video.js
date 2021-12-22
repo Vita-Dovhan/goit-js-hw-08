@@ -1,3 +1,4 @@
+import Player from "@vimeo/player"
 import throttle from 'lodash.throttle';
 
 const iframe = document.querySelector('iframe');
@@ -9,8 +10,17 @@ player.getCurrentTime().then((seconds) => {
 });
 
 const timeStart = JSON.parse(localStorage.getItem("videoplayer-current-time")) || 0
-console.log(timeStart);
-player.setCurrentItem(timeStart)
+player.setCurrentTime(timeStart).then(function (timeStart) {
+}).catch(function (error) {
+  switch (error.name) {
+    case 'RangeError':
+      break;
+
+    default:
+
+      break;
+  }
+});
 function videoStart(timeStart) {
   console.log(timeStart)
 }
