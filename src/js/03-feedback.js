@@ -21,8 +21,8 @@ function onSubmit(event) {
   localStorage.removeItem(STORAGE_KEY)
 }
 function onInput(event) {
-  const userEmail = event.currentTarget.elements.email.value.trim();
-  const userMessage = event.currentTarget.elements.message.value.trim();
+  const userEmail = formEl.elements.email.value.trim();
+  const userMessage = formEl.elements.message.value.trim();
   const newUser = {
     email: userEmail,
     message: userMessage,
