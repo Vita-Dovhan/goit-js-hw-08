@@ -7,7 +7,7 @@ const refs = {
 }
 
 refs.form.addEventListener('submit', onFormSubmit);
-refs.form.addEventListener('input', throttle(populateMessageOutput, 500));
+refs.textarea.addEventListener('input', throttle(onTextareaInput, 1000));
 
 
 refs.form.addEventListener('input', (e) => {
@@ -22,17 +22,31 @@ function onFormSubmit(event) {
   event.preventDefault();
   event.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY)
+
+
+
 }
-function populateMessageOutput() {
+
+function onTextareaInput(event) {
+  const message = event.target.value;
+}
+
+function populateVessageOutput() {
   const savedMessage = localStorage.getItem(STORAGE_KEY);
   if (savedMessage) {
-    refs.form.value = savedMessage;
+    refs.textarea.value = savedMessage;
   }
 }
 
 
 
 
+// console.log(localStorage)
+// localStorage.setItem('date', JSON.stringify({ name: 'vita', age: 33 }))
+// const savedData = localStorage.getItem('date')
+// console.log("saveddata:", savedData)
+// const parsedData = JSON.parse(savedData)
+// console.log("parseddata:", parsedData)
 
 
 
