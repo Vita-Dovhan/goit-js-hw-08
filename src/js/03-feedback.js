@@ -3,7 +3,7 @@ const STORAGE_KEY = 'feedback-form-state';
 const formEl = document.querySelector(".feedback-form")
 
 formEl.addEventListener('submit', onSubmit);
-formEl.addEventListener('input', throttle(onInput, 500));
+formEl.addEventListener('input', throttle(onInput, 1000));
 
 function onSubmit(event) {
   event.preventDefault();
