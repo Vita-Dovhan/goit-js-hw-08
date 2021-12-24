@@ -1,53 +1,47 @@
 import throttle from "lodash.throttle";
 const STORAGE_KEY = 'feedback-form-state';
-const formData = {};
-const refs = {
-  form: document.querySelector('.feedback-form'),
-  textarea: document.querySelector('.feedback-form textarea'),
-}
+const formEl = document.querySelector(".feedback-form")
 
-refs.form.addEventListener('submit', onFormSubmit);
-refs.textarea.addEventListener('input', throttle(onTextareaInput, 1000));
+formEl.addEventListener('submit', onSubmit);
+formEl.addEventListener('input', throttle(onInput, 500));
 
-
-refs.form.addEventListener('input', (e) => {
-  formData[e.target.name] = e.target.value;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-  const formdata = JSON.parse(localStorage.getItem(STORAGE_KEY))
-  console.log(formdata)
-})
-
-
-function onFormSubmit(event) {
+function onSubmit(event) {
   event.preventDefault();
-  event.currentTarget.reset();
+  const userEmail = event.currentTarget.elements.email.value.trim();
+  const userMessage = event.currentTarget.elements.message.value.trim();
+  const newUser = {
+    email: userEmail,
+    message: userMessage,
+  }
+
+  if (!userEmail || !userMessage) return alert('Усі поля обов`язкові для заповнення')
+
+  console.log(newUser);
+  formEl.reset();
   localStorage.removeItem(STORAGE_KEY)
-
-
-
 }
-
-function onTextareaInput(event) {
-  const message = event.target.value;
+function onInput(event) {
+  const userEmail = event.currentTarget.elements.email.value.trim();
+  const userMessage = event.currentTarget.elements.message.value.trim();
+  const newUser = {
+    email: userEmail,
+    message: userMessage,
+  }
+  newUser[event.target.name] = event.target.value;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser));
+  const formData = JSON.parse(localStorage.getItem(STORAGE_KEY))
+  console.log(formData)
 }
-
-function populateVessageOutput() {
+function populateMessageOutput() {
   const savedMessage = localStorage.getItem(STORAGE_KEY);
-  if (savedMessage) {
-    refs.textarea.value = savedMessage;
+  if (savedMessage !== null) {
+    try {
+      formEl.email.value = JSON.parse(savedMessage).email;
+      formEl.message.value = JSON.parse(savedMessage).message;
+    } catch (error) {
+      console.log(error.name);
+      console.log(error.message);
+    }
   }
 }
-
-
-
-
-// console.log(localStorage)
-// localStorage.setItem('date', JSON.stringify({ name: 'vita', age: 33 }))
-// const savedData = localStorage.getItem('date')
-// console.log("saveddata:", savedData)
-// const parsedData = JSON.parse(savedData)
-// console.log("parseddata:", parsedData)
-
-
-
-
+populateMessageOutput();
